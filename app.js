@@ -64,8 +64,14 @@ const gameController= (function (){
  */
 
 let playerFactory=function(playerName,marker){
+    let playerScore =0;
+    const getPlayerScore=() => playerScore;
+    const increaseScore=() => playerScore++;
+
     return{
         playerName,
-        marker
+        marker,
+        increaseScore,
+        getPlayerScore
     };
 };
