@@ -144,6 +144,45 @@ const gameController= (function (
 
 })();
 
+//---
+// Playing the game in console/
+// console.log("Current Player:"+ gameController.getCurrPlayer().playerName);
+// console.log("Run gameController.playRound(index) to make a move");
+// gameboard.logBoard();
+//---
 
-console.log("Run gameController.playRound(index) to make a move");
-gameboard.logBoard();
+//-------------------
+// Player Creation: This is the initial page to select your player name and marker
+//-------------------
+
+const domPlayerCreate=function(){
+    const container = document.querySelector(".container");
+
+    const playerCreate = document.createElement("form");
+    playerCreate.setAttribute("class","playerCreateForm");
+
+    const playerOneLabel = document.createElement("label");
+    playerOneLabel.setAttribute("for","playerOne");
+    playerOneLabel.textContent="Name Player 1: ";
+    const playerTwoLabel = document.createElement("label");
+    playerTwoLabel.setAttribute("for","playerTwo");
+    playerTwoLabel.textContent="Name Player 2: ";
+    const playerOneInput = document.createElement("input");
+    playerOneInput.setAttribute("id","playerOne");
+    playerOneInput.setAttribute("name","playerOne");
+    const playerTwoInput = document.createElement("input");
+    playerTwoInput.setAttribute("id","playerTwo");
+    playerTwoInput.setAttribute("name","playerTwo");
+    const btnCreatePlayer = document.createElement("button");
+    btnCreatePlayer.textContent="Play";
+
+    playerCreate.appendChild(playerOneLabel);
+    playerCreate.appendChild(playerOneInput);
+    playerCreate.appendChild(playerTwoLabel);
+    playerCreate.appendChild(playerTwoInput);
+    playerCreate.appendChild(btnCreatePlayer);
+
+    container.appendChild(playerCreate);
+}
+
+domPlayerCreate();
