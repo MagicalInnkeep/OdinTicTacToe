@@ -1,3 +1,5 @@
+let game;
+
 /**
  *  IIFE for gameboard
  */
@@ -94,7 +96,7 @@ const gameController= (function (
     playerTwoMarker = "O"
 ){
     // Create players with the given data
-    const players =[
+    let players =[
         playerFactory(playerOneName,playerOneMarker),
         playerFactory(playerTwoName,playerTwoMarker)
     ];
@@ -137,9 +139,20 @@ const gameController= (function (
         return gameStatus;
     }
 
+    function setPlayers(newPlayerOneName, newPlayerOneMarker, newPlayerTwoName, newPlayerTwoMarker) {
+        players = [
+            playerFactory(newPlayerOneName || "PlayerOne", newPlayerOneMarker),
+            playerFactory(newPlayerTwoName || "PlayerTwo", newPlayerTwoMarker)
+        ];
+        currentPlayer = 0; // Reset to first player
+        gameboard.resetBoard(); // Reset the gameboard
+        console.log(`Players updated: ${players[0].name} vs ${players[1].name}`);
+    }
+
     return {
         getCurrPlayer,
-        playRound
+        playRound,
+        setPlayers
     };
 
 })();
@@ -175,6 +188,12 @@ const domPlayerCreate=function(){
     playerTwoInput.setAttribute("name","playerTwo");
     const btnCreatePlayer = document.createElement("button");
     btnCreatePlayer.textContent="Play";
+
+    btnCreatePlayer.addEventListener('click', () =>{
+        let player1Name = document.querySelector("#playerOne");
+        let player2Name = document.querySelector("#playerTwo")
+        gameController.setPlayers(player1Name, 'X', player2Name, 'O');
+    });
 
     playerCreate.appendChild(playerOneLabel);
     playerCreate.appendChild(playerOneInput);
