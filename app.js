@@ -149,20 +149,71 @@ const gameController= (function (
         console.log(`Players updated: ${players[0].playerName} vs ${players[1].playerName}`);
     }
 
+    function getPlayers(){
+        return players;
+    }
+
     return {
         getCurrPlayer,
         playRound,
-        setPlayers
+        setPlayers,
+        getPlayers
     };
 
 })();
 
-//---
-// Playing the game in console/
-// console.log("Current Player:"+ gameController.getCurrPlayer().playerName);
-// console.log("Run gameController.playRound(index) to make a move");
-// gameboard.logBoard();
-//---
+//----------------------
+// Game Play: Dom manipulations to play the game
+//----------------------
+
+const domGamePlay= function(){
+    const container = document.querySelector(".container");
+
+//Header section
+    const header = document.createElement("div");
+    header.setAttribute("class","header");
+
+    //Banner section
+    const banner = document.createElement("h1");
+    banner.textContent="Tic-Tac-Toe";
+    header.appendChild(banner);
+
+    //Scoreboard section
+    const scoreboard = document.createElement("div");
+    scoreboard.setAttribute("id","scoreboard");
+    const players = gameController.getPlayers();
+    const player1Name = document.createElement("div");
+    player1Name.textContent=`Player ${players[0].playerName}`;
+    const player2Name = document.createElement("div");
+    player2Name.textContent=`Player ${players[1].playerName}`;
+
+    const vsText = document.createElement("div");
+    vsText.setAttribute("id","vs");
+    vsText.textContent="vs";
+
+    scoreboard.appendChild(player1Name);
+    scoreboard.appendChild(vsText);
+    scoreboard.appendChild(player2Name);
+
+    header.appendChild(scoreboard);
+    container.appendChild(header);
+
+    //GameEnvironment section
+    const gameEnv = document.createElement("div");
+    gameEnv.setAttribute("class","gameEnv");
+    for(let i=0;i<3;i++){
+        for(let j=0;j<3;j++){
+            const cell = document.createElement("div");
+            cell.setAttribute("id",`cell ${i}${j}`);
+            gameEnv.appendChild(cell);
+        }
+    }
+
+
+    container.appendChild(gameEnv);
+};
+
+
 
 //-------------------
 // Player Creation: This is the initial page to select your player name and marker
@@ -194,6 +245,8 @@ const domPlayerCreate=function(){
         let player1Name = document.querySelector("#playerOne");
         let player2Name = document.querySelector("#playerTwo")
         gameController.setPlayers(player1Name.value, 'X', player2Name.value, 'O');
+        container.removeChild(playerCreate);
+        domGamePlay();
     });
 
     playerCreate.appendChild(playerOneLabel);
