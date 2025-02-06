@@ -146,7 +146,7 @@ const gameController= (function (
         ];
         currentPlayer = 0; // Reset to first player
         gameboard.resetBoard(); // Reset the gameboard
-        console.log(`Players updated: ${players[0].name} vs ${players[1].name}`);
+        console.log(`Players updated: ${players[0].playerName} vs ${players[1].playerName}`);
     }
 
     return {
@@ -189,10 +189,11 @@ const domPlayerCreate=function(){
     const btnCreatePlayer = document.createElement("button");
     btnCreatePlayer.textContent="Play";
 
-    btnCreatePlayer.addEventListener('click', () =>{
+    btnCreatePlayer.addEventListener('click', (event) =>{
+        event.preventDefault();
         let player1Name = document.querySelector("#playerOne");
         let player2Name = document.querySelector("#playerTwo")
-        gameController.setPlayers(player1Name, 'X', player2Name, 'O');
+        gameController.setPlayers(player1Name.value, 'X', player2Name.value, 'O');
     });
 
     playerCreate.appendChild(playerOneLabel);
