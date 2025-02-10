@@ -201,14 +201,29 @@ const domGamePlay= function(){
     //GameEnvironment section
     const gameEnv = document.createElement("div");
     gameEnv.setAttribute("class","gameEnv");
-    for(let i=0;i<3;i++){
-        for(let j=0;j<3;j++){
-            const cell = document.createElement("div");
-            cell.setAttribute("id",`cell ${i}${j}`);
-            gameEnv.appendChild(cell);
-        }
+    for(let i=0;i<9;i++){
+        const cell = document.createElement("div");
+        cell.setAttribute("id",`cell ${i}`);
+        gameEnv.appendChild(cell);
     }
-
+    let gameState =0;
+    gameEnv.addEventListener('click', (event)=>{
+        if(gameState==0){
+            const marker = gameController.getCurrPlayer().marker;
+            const player = gameController.getCurrPlayer().playerName;
+            const clickedCell = gameController.playRound(event.target.id.slice(5));
+            if(clickedCell==0){
+                event.target.textContent=marker;
+            }
+            if(clickedCell==1){
+                event.target.textContent=marker;
+                const winnerDisplay = document.createElement("div");
+                winnerDisplay.textContent=`${player} won!`;
+                scoreboard.appendChild(winnerDisplay);
+                gameState=1;
+            }
+        }
+    });
 
     container.appendChild(gameEnv);
 };

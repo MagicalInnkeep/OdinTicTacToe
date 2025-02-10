@@ -1,0 +1,12 @@
+.gameEnv{
+    display: flex;
+    flex-wrap: wrap;
+    width: 300px;
+    height: 300px;
+}
+
+.gameEnv>div{
+    width: 98px;
+    height: 98px;
+    border: 1px solid #000000;
+}
