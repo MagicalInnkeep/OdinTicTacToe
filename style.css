@@ -1,12 +1,126 @@
-.gameEnv{
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
     display: flex;
-    flex-wrap: wrap;
-    width: 300px;
-    height: 300px;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f4;
+    margin: 0;
 }
 
-.gameEnv>div{
-    width: 98px;
-    height: 98px;
-    border: 1px solid #000000;
+.container {
+    text-align: center;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+}
+
+/* Header */
+.header {
+    margin-bottom: 20px;
+}
+
+h1 {
+    color: #333;
+    margin: 0;
+}
+
+/* Scoreboard */
+#scoreboard {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    font-weight: bold;
+    color: #555;
+}
+
+#vs {
+    font-size: 1.2em;
+    color: #ff4500;
+}
+
+/* Game Board */
+.gameEnv {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    width: 300px;
+    margin-top: 20px;
+}
+
+.gameEnv div {
+    width: 100px;
+    height: 100px;
+    background-color: #fff;
+    border: 1px solid #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    box-sizing: border-box;
+}
+
+
+.gameEnv div:nth-child(1),
+.gameEnv div:nth-child(2),
+.gameEnv div:nth-child(3) {
+    border-top: none;
+}
+
+.gameEnv div:nth-child(3n + 1) {
+    border-left: none;
+}
+
+.gameEnv div:nth-child(3n + 3) {
+    border-right: none;
+}
+
+.gameEnv div:nth-child(7),
+.gameEnv div:nth-child(8),
+.gameEnv div:nth-child(9) {
+    border-bottom: none;
+}
+
+
+.gameEnv div:hover {
+    background-color: #ddd;
+}
+
+/* Player Creation Form */
+.playerCreateForm {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.playerCreateForm label {
+    font-weight: bold;
+    color: #333;
+}
+
+.playerCreateForm input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    padding: 10px;
+    background-color: #ff4500;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #e63900;
 }
