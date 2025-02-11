@@ -113,6 +113,10 @@ const gameController= (function (
     function getCurrPlayer(){
         return players[currentPlayer];
     }
+    // Function to reset the current player
+    function resetPlayer(){
+        currentPlayer=0;
+    }
 
     function playRound(input){
         const playerMarker = getCurrPlayer().marker;
@@ -157,7 +161,8 @@ const gameController= (function (
         getCurrPlayer,
         playRound,
         setPlayers,
-        getPlayers
+        getPlayers,
+        resetPlayer
     };
 
 })();
@@ -191,11 +196,26 @@ const domGamePlay= function(){
     vsText.setAttribute("id","vs");
     vsText.textContent="vs";
 
+    const score1 = document.createElement("div");
+    const scorevs = document.createElement("div");
+    scorevs.setAttribute("id","vs");
+    scorevs.textContent="-";
+    const score2 = document.createElement("div");
+    score1.textContent=`${players[0].getPlayerScore()}`;
+    score2.textContent=`${players[1].getPlayerScore()}`;
+
     scoreboard.appendChild(player1Name);
     scoreboard.appendChild(vsText);
     scoreboard.appendChild(player2Name);
 
+    const scoreboard2 = document.createElement("div");
+    scoreboard2.setAttribute("id","scoreboard2");
+    scoreboard2.appendChild(score1);
+    scoreboard2.appendChild(scorevs);
+    scoreboard2.appendChild(score2);
+
     header.appendChild(scoreboard);
+    header.appendChild(scoreboard2);
     container.appendChild(header);
 
     //GameEnvironment section
@@ -203,7 +223,7 @@ const domGamePlay= function(){
     gameEnv.setAttribute("class","gameEnv");
     for(let i=0;i<9;i++){
         const cell = document.createElement("div");
-        cell.setAttribute("id",`cell ${i}`);
+        cell.setAttribute("id",`cell${i}`);
         gameEnv.appendChild(cell);
     }
     let gameState =0;
@@ -211,23 +231,67 @@ const domGamePlay= function(){
         if(gameState==0){
             const marker = gameController.getCurrPlayer().marker;
             const player = gameController.getCurrPlayer().playerName;
-            const clickedCell = gameController.playRound(event.target.id.slice(5));
+            const clickedCell = gameController.playRound(event.target.id.slice(4));
             if(clickedCell==0){
                 event.target.textContent=marker;
             }
-            if(clickedCell==1){
+            else if(clickedCell==1){
                 event.target.textContent=marker;
-                const winnerDisplay = document.createElement("div");
-                winnerDisplay.textContent=`${player} won!`;
-                scoreboard.appendChild(winnerDisplay);
+                popUpDisplay(clickedCell,player);
+                gameController.getCurrPlayer().increaseScore();
+                score1.textContent=`${players[0].getPlayerScore()}`;
+                score2.textContent=`${players[1].getPlayerScore()}`;
+                gameState=1;
+            }
+            else if(clickedCell==2){
+                event.target.textContent=marker;
+                popUpDisplay(clickedCell,player);
                 gameState=1;
             }
         }
     });
 
     container.appendChild(gameEnv);
-};
 
+    const refreshBtn = document.createElement("button");
+    refreshBtn.textContent="Clean Slate";
+
+    refreshBtn.addEventListener('click', (e)=>{
+        gameboard.resetBoard();
+        gameController.resetPlayer();
+        for(let i=0;i<9;i++){
+            const cell = document.querySelector(`#cell${i}`);
+            cell.textContent="";
+        }
+        gameState=0;
+    });
+
+    container.appendChild(refreshBtn);
+
+    // Game End Popup
+
+    function popUpDisplay(state, name){
+        const container = document.querySelector(".container");
+
+        const popupDiv = document.createElement("div");
+        popupDiv.setAttribute("class","popup");
+        const popupContent = document.createElement("div");
+        popupContent.setAttribute("class","popup-content");
+        const popupText = document.createElement("p");
+        popupText.textContent=state==1?`${name} won!`:`Draw!`;
+        const popupBtn = document.createElement('button');
+        popupBtn.textContent="OK";
+
+        popupBtn.addEventListener('click', (event)=>{
+            document.querySelector(".popup").remove();
+        })
+
+        popupContent.appendChild(popupText);
+        popupContent.appendChild(popupBtn);
+        popupDiv.appendChild(popupContent);
+        container.appendChild(popupDiv);
+    }
+};
 
 
 //-------------------
